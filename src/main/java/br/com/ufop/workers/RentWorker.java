@@ -3,6 +3,7 @@ package br.com.ufop.workers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import br.com.ufop.Worker;
 import br.com.ufop.classes.Rent;
@@ -13,10 +14,10 @@ import br.com.ufop.classes.Payment;
 import br.com.ufop.database.PostgresData;
 import br.com.ufop.utils.K;
 import br.com.ufop.utils.Timer;
-import br.com.ufop.utils.Utils;
+import br.com.ufop.utils.Methods;
 
 public class RentWorker extends Worker implements Runnable {
-	private static int breakpoint;
+	private static AtomicInteger breakpoint;
 	private static final String BREAKPOINT_FILE = "rent.breakpoint";
 	
 	public RentWorker() {
@@ -38,7 +39,7 @@ public class RentWorker extends Worker implements Runnable {
 		
 		List<Movie> movies = PostgresData.getInstance().getRandomMovie(moviesAmount);
 		
-		Rent rent = new Rent(breakpoint++, client.getCpf(), PostgresData.converterLongParaData(System.currentTimeMillis() + K.DIA_EM_MILISEGUNDOS * 3), true, new Random().nextDouble());
+		Rent rent = new Rent(breakpoint.getAndIncrement(), client.getCpf(), PostgresData.converterLongParaData(System.currentTimeMillis() + K.DIA_EM_MILISEGUNDOS * 3), true, new Random().nextDouble());
 		
 		PostgresData.getInstance().addRent(rent);
 		
@@ -56,9 +57,9 @@ public class RentWorker extends Worker implements Runnable {
 		Payment pagamento = new Payment(rent.getCodigo(), client.getCpf(), movies.size() * 5.0, PostgresData.converterLongParaData(System.currentTimeMillis() + K.DIA_EM_MILISEGUNDOS * 3), new Random().nextInt(11) < 6 ? "debito" : "credito");
 		PostgresData.getInstance().addPayment(pagamento);
 		
-		setBreakpoint(breakpoint);
+		setBreakpoint(breakpoint.get());
 		
-		Utils.log(getClass(), "Rent Added! Timer: " + timer.getTime() + " s.");
+		Methods.log(getClass(), "Rent Added! Timer: " + timer.getTime() + " s.");
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class RentWorker extends Worker implements Runnable {
 		
 		PostgresData.getInstance().updateRent(rent, updates);
 		
-		Utils.log(getClass(), "Rent Removed!");
+		Methods.log(getClass(), "Rent Removed!");
 	}
 
 	public void run() {
@@ -89,5 +90,10 @@ public class RentWorker extends Worker implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	protected void update() throws Exception {
+		return;
 	}
 }

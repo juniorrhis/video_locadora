@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Utils {
+public class Methods {
 	public static void writeFile(String filePath, String fileContent, boolean append) throws IOException{
         BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, append));
         
