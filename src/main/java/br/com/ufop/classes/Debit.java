@@ -1,10 +1,10 @@
 package br.com.ufop.classes;
 
-public class Debito {
+public class Debit {
 	private long codigoPagamento;
 	private double valorComDesconto;
 	
-	public Debito(long codigoPagamento, double valorComDesconto) {
+	public Debit(long codigoPagamento, double valorComDesconto) {
 		this.codigoPagamento = codigoPagamento;
 		this.valorComDesconto = valorComDesconto;
 	}

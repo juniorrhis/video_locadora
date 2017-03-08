@@ -1,6 +1,6 @@
 package br.com.ufop.classes;
 
-public class Filme {
+public class Movie {
 	private long codigo;
 	private String titulo;
 	private int lancamento;
@@ -13,7 +13,7 @@ public class Filme {
 	private String capa;
 	private Double random;
 	
-	public Filme(long codigo, String titulo, int lancamento, int duracao, String genero, String sinopse, String diretor, int quantidade, String dataDisponivel, String capa, Double random) {
+	public Movie(long codigo, String titulo, int lancamento, int duracao, String genero, String sinopse, String diretor, int quantidade, String dataDisponivel, String capa, Double random) {
 		this.codigo = codigo;
 		this.titulo = titulo;
 		this.lancamento = lancamento;

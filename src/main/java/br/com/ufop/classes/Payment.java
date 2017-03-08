@@ -1,6 +1,6 @@
 package br.com.ufop.classes;
 
-public class Pagamento {
+public class Payment {
 	private long codigo;
 	private long codigoAluguel;
 	private long cpfCliente;
@@ -9,7 +9,7 @@ public class Pagamento {
 	private String tipo;
 	
 	
-	public Pagamento(long codigo, long codigoAluguel, long cpfCliente, double valor, String vencimento, String tipo) {
+	public Payment(long codigo, long codigoAluguel, long cpfCliente, double valor, String vencimento, String tipo) {
 		this.codigo = codigo;
 		this.codigoAluguel = codigoAluguel;
 		this.cpfCliente = cpfCliente;
@@ -18,7 +18,7 @@ public class Pagamento {
 		this.tipo = tipo;
 	}
 	
-	public Pagamento(long codigoAluguel, long cpfCliente, double valor, String vencimento, String tipo) {
+	public Payment(long codigoAluguel, long cpfCliente, double valor, String vencimento, String tipo) {
 		this.codigoAluguel = codigoAluguel;
 		this.cpfCliente = cpfCliente;
 		this.valor = valor;

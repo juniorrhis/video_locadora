@@ -1,10 +1,10 @@
 package br.com.ufop.classes;
 
-public class Credito {
+public class Credit {
 	private long codigoPagamento;
 	private long numeroCartao;
 	
-	public Credito(long codigoPagamento, long numeroCartao) {
+	public Credit(long codigoPagamento, long numeroCartao) {
 		this.codigoPagamento = codigoPagamento;
 		this.numeroCartao = numeroCartao;
 	}

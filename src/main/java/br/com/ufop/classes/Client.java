@@ -1,6 +1,6 @@
 package br.com.ufop.classes;
 
-public class Cliente {
+public class Client {
 	private long cpf;
 	private String pNome;
 	private String mNome;
@@ -8,7 +8,7 @@ public class Cliente {
 	private String endereco;
 	private Double random;
 	
-	public Cliente(long cpf, String pNome, String mNome, String uNome, String endereco, Double random) {
+	public Client(long cpf, String pNome, String mNome, String uNome, String endereco, Double random) {
 		this.cpf = cpf;
 		this.pNome = pNome;
 		this.mNome = mNome;

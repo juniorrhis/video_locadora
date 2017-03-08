@@ -1,10 +1,10 @@
 package br.com.ufop.classes;
 
-public class ConteudoAluguel {
+public class RentContent {
 	private long codigoAluguel;
 	private long codigoFilme;
 	
-	public ConteudoAluguel(long codigoAluguel, long codigoFilme) {
+	public RentContent(long codigoAluguel, long codigoFilme) {
 		this.codigoAluguel = codigoAluguel;
 		this.codigoFilme = codigoFilme;
 	}

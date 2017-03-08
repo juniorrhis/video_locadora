@@ -1,10 +1,10 @@
 package br.com.ufop.classes;
 
-public class ConteudoReserva {
+public class ReserveContent {
 	private long codigoReserva;
 	private long codigoFilme;
 	
-	public ConteudoReserva(long codigoReserva, long codigoFilme) {
+	public ReserveContent(long codigoReserva, long codigoFilme) {
 		this.codigoReserva = codigoReserva;
 		this.codigoFilme = codigoFilme;
 	}

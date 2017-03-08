@@ -1,19 +1,21 @@
 package br.com.ufop.classes;
 
-public class Reserva {
+public class Reserve {
 	private long codigo;
 	private long cpfCliente;
 	private String data;
 	private boolean pendente;
+	private Double random;
 	
-	public Reserva(long codigo, long cpfCliente, String data, boolean pendente) {
+	public Reserve(long codigo, long cpfCliente, String data, boolean pendente, Double random) {
 		this.codigo = codigo;
 		this.cpfCliente = cpfCliente;
 		this.data = data;
 		this.pendente = pendente;
+		this.random = random;
 	}
 	
-	public Reserva(long cpfCliente, String data) {
+	public Reserve(long cpfCliente, String data) {
 		this.cpfCliente = cpfCliente;
 		this.data = data;
 	}
@@ -36,5 +38,13 @@ public class Reserva {
 
 	public void setPendente(boolean pendente) {
 		this.pendente = pendente;
+	}
+
+	public Double getRandom() {
+		return random;
+	}
+
+	public void setRandom(Double random) {
+		this.random = random;
 	}
 }
