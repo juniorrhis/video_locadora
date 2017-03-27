@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import br.com.ufop.classes.Rent;
 import br.com.ufop.classes.Client;
-import br.com.ufop.classes.RentContent;
-import br.com.ufop.classes.ReserveContent;
 import br.com.ufop.classes.Credit;
 import br.com.ufop.classes.Debit;
 import br.com.ufop.classes.Movie;
 import br.com.ufop.classes.Payment;
+import br.com.ufop.classes.Rent;
+import br.com.ufop.classes.RentContent;
 import br.com.ufop.classes.Reserve;
+import br.com.ufop.classes.ReserveContent;
 
 /**
  * @author Júnior Rhis
@@ -52,6 +52,10 @@ public class PostgresData {
 			instance = new PostgresData();
 		}
 		return instance;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		PostgresData.getInstance();
 	}
 	
 	/**
@@ -93,9 +97,7 @@ public class PostgresData {
 			ps.executeUpdate();
 			return true;
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) {}
 		
 		return false;
 	}
@@ -105,7 +107,7 @@ public class PostgresData {
      * @param cpf - cpf do cliente a ser removido.
      * @return true - se a operação foi bem sucedida; false - caso contrário.
      */
-	public static boolean removeClient(long cpf) {
+	public boolean removeClient(long cpf) {
 		String query = "DELETE FROM " + TABLE_CLIENTE + " WHERE cpf = " + cpf;
 		
 		try {
@@ -125,7 +127,7 @@ public class PostgresData {
      * @param cliente - cliente a ser atualizado.
      * @return true - se a operação foi bem sucedida; false - caso contrário.
      */
-	public static boolean updateClient(Client cliente) {
+	public boolean updateClient(Client cliente) {
 		String query = "UPDATE " + TABLE_CLIENTE + " SET pnome = '"+ cliente.getpNome() +"',mnome = '" + cliente.getmNome() +"',unome = '" + cliente.getuNome() + "',endereco = '" + cliente.getEndereco() + "' WHERE cpf = " + cliente.getCpf();
 		
 		try {
@@ -239,7 +241,7 @@ public class PostgresData {
 	 * Insere o conteúdo de uma reserva no Banco.
 	 * @param conteudoReserva - conteúdo da reserva; null - caso contrário.
 	 */
-	public static void addReserveContent(ReserveContent conteudoReserva) {
+	public void addReserveContent(ReserveContent conteudoReserva) {
 		String query = "INSERT INTO " + TABLE_CONTEUDO_RESERVA + "(codigo_reserva, codigo_filme) VALUES (?, ?)";
 		
 		try {
@@ -249,9 +251,7 @@ public class PostgresData {
 			
 			ps.executeUpdate();
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) {}
 	}
 	
 	/**
@@ -272,9 +272,7 @@ public class PostgresData {
 			ps.executeUpdate();
 			return true;
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) {}
 		
 		return false;
 	}
@@ -327,7 +325,7 @@ public class PostgresData {
 	 * Insere o contéudo de um aluguel no Banco.
 	 * @param conteudoAluguel - conteúdo do aluguel a ser inserido.
 	 */
-	public static void addRentContent(RentContent conteudoAluguel) {
+	public void addRentContent(RentContent conteudoAluguel) {
 		String query = "INSERT INTO " + TABLE_CONTEUDO_ALUGUEL + "(codigo_aluguel, codigo_filme) VALUES (?, ?)";
 		
 		try {
@@ -337,9 +335,7 @@ public class PostgresData {
 			
 			ps.executeUpdate();
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) {}
 	}
 	
 	/**
@@ -362,9 +358,7 @@ public class PostgresData {
 			ps.executeUpdate();
 			return true;
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) {}
 		
 		return false;
 	}
@@ -399,7 +393,7 @@ public class PostgresData {
 	 * @param aluguel - aluguel a ser atualizado.
 	 * @return true - se a operação foi bem sucedida; false - caso contrário.
 	 */
-	public static boolean updateRent(Rent aluguel) {
+	public boolean updateRent(Rent aluguel) {
 		String query = "UPDATE " + TABLE_ALUGUEL + " SET cpf_cliente = '" + aluguel.getCpfCliente() +"',data_entrega = '" + aluguel.getDataEntrega() + "',pendente = '" + aluguel.getPendente() + "' WHERE codigo = " + aluguel.getCodigo();
 		
 		try {
@@ -419,7 +413,7 @@ public class PostgresData {
 	 * @param reserva - Reserva a ser atualizada.
 	 * @return true - se a operação foi bem sucedida; false - caso contrário.
 	 */
-	public static boolean updateReserve(Reserve reserva) {
+	public boolean updateReserve(Reserve reserva) {
 		String query = "UPDATE " + TABLE_RESERVA + " SET cpf_cliente = '" + reserva.getCpfCliente() +"',data = '" + reserva.getData() + "',pendente = '" + reserva.getPendente() + "' WHERE codigo = " + reserva.getCodigo();
 		
 		try {
@@ -465,7 +459,7 @@ public class PostgresData {
 	 * @param credito - pagamento do tipo crédito a ser adicionado.
 	 * @return true - se a operação foi bem sucedida; false - caso contrário.
 	 */
-	public static boolean inserirPagamentoCredito(Credit credito) {
+	public boolean inserirPagamentoCredito(Credit credito) {
 		String query = "INSERT INTO " + TABLE_CREDITO + "(codigo_pagamento, numero_cartao) VALUES (?, ?)";
 		
 		try {
@@ -488,7 +482,7 @@ public class PostgresData {
 	 * @param debito - pagamento do tipo debito a ser adicionado.
 	 * @return true - se a operação foi bem sucedida; false - caso contrário.
 	 */
-	public static boolean inserirPagamentoDebito(Debit debito) {
+	public boolean inserirPagamentoDebito(Debit debito) {
 		String query = "INSERT INTO " + TABLE_DEBITO + "(codigo_pagamento, valor_com_desconto) VALUES (?, ?)";
 		
 		try {
@@ -649,12 +643,17 @@ public class PostgresData {
 	}
 	
 	public Movie getRandomMovie() {
-		return getRandomMovie(1).get(0);
+		List<Movie> movies = getRandomMovie(1);
+		
+		if(movies != null && !movies.isEmpty()) {
+			return movies.get(0);
+		}
+		return null;
 	}
 	
 	public List<Movie> getRandomMovie(int amount) {
 		List<Movie> movies = new ArrayList<Movie>();
-		String query = "SELECT * FROM " + TABLE_FILME + " WHERE random < " + (new Random().nextDouble() + 0.5) + " AND quantidade > 0 ORDER by random LIMIT " + amount;
+		String query = "SELECT * FROM " + TABLE_FILME + " WHERE random < " + (new Random().nextDouble() + 0.3) + " AND quantidade > 0 ORDER by random LIMIT " + amount;
 		
 		try {
 			Statement stmt = connection.createStatement();
@@ -674,11 +673,16 @@ public class PostgresData {
 	
 	
 	public Client getRandomClient() {
-		return getRandomClient(1).get(0);
+		List<Client> clients = getRandomClient(1);
+		
+		if(clients != null && !clients.isEmpty()) {
+			return clients.get(0);
+		}
+		return null;
 	}
 
 	public List<Client> getRandomClient(int limit) {
-		String query = "SELECT * FROM " + TABLE_CLIENTE + " WHERE random < " + (new Random().nextDouble() + 0.5) + " ORDER by random LIMIT " + limit;
+		String query = "SELECT * FROM " + TABLE_CLIENTE + " WHERE random < " + (new Random().nextDouble() + 0.3) + " ORDER by random LIMIT " + limit;
 		
 		List<Client> clients = new ArrayList<Client>();
 		
@@ -700,7 +704,7 @@ public class PostgresData {
 		return null;
 	}
 	
-	public static boolean updateMovie(Movie filme, HashMap<String, Object> updates) {
+	public boolean updateMovie(Movie filme, HashMap<String, Object> updates) {
 		String query = "UPDATE " + TABLE_FILME + " SET";
 		
 		boolean firstField = true;
@@ -724,7 +728,7 @@ public class PostgresData {
 	}
 	
 	public Rent getRandomRent() {
-		String query = "SELECT * FROM " + TABLE_ALUGUEL + " WHERE random < " + (new Random().nextDouble() + 0.5) + " AND pendente = TRUE ORDER by random LIMIT " + 1;
+		String query = "SELECT * FROM " + TABLE_ALUGUEL + " WHERE pendente = TRUE AND random < " + (new Random().nextDouble() + 0.3) + " ORDER by random LIMIT " + 1;
 		
 		try {
 			Statement stmt = connection.createStatement();
@@ -748,7 +752,7 @@ public class PostgresData {
 			query += (firstField ? " " : ", ") + entry.getKey() + " = " + (entry.getValue() instanceof String ? "'" : "") + entry.getValue() + (entry.getValue() instanceof String ? "'" : ""); 
 			firstField = false;
 		}
-		query += "WHERE codigo = " + aluguel.getCodigo();
+		query += " WHERE codigo = " + aluguel.getCodigo();
 		
 		try {
 			Statement stmt = connection.createStatement();
@@ -780,22 +784,20 @@ public class PostgresData {
 			ps.executeUpdate();
 			return true;
 			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		} catch(Exception e) {}
 		
 		return false;
 	}
 	
 	public Reserve getRandomReserve() {
-		String query = "SELECT * FROM " + TABLE_RESERVA + " WHERE random < " + (new Random().nextDouble() + 0.5) + " AND pendente = TRUE ORDER by random LIMIT " + 1;
+		String query = "SELECT * FROM " + TABLE_RESERVA + " WHERE pendente = TRUE ORDER by random LIMIT " + 1;
 		
 		try {
 			Statement stmt = connection.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
 			if(rs.next()) {
-				return new Reserve(rs.getLong("codigo"), rs.getLong("cpf_cliente"), rs.getString("data_entrega"), rs.getBoolean("pendente"), rs.getDouble("random"));
+				return new Reserve(rs.getLong("codigo"), rs.getLong("cpf_cliente"), rs.getString("data"), rs.getBoolean("pendente"), rs.getDouble("random"));
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -812,7 +814,37 @@ public class PostgresData {
 			query += (firstField ? " " : ", ") + entry.getKey() + " = " + (entry.getValue() instanceof String ? "'" : "") + entry.getValue() + (entry.getValue() instanceof String ? "'" : ""); 
 			firstField = false;
 		}
-		query += "WHERE codigo = " + reserva.getCodigo();
+		query += " WHERE codigo = " + reserva.getCodigo();
+		
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate(query);
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public boolean removeReserve(long codigo) {
+		String query = "DELETE FROM " + TABLE_RESERVA + " WHERE codigo = " + codigo;
+		
+		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate(query);
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+
+	public boolean removeRent(long codigo) {
+		String query = "DELETE FROM " + TABLE_ALUGUEL + " WHERE codigo = " + codigo;
 		
 		try {
 			Statement stmt = connection.createStatement();

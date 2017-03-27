@@ -18,33 +18,62 @@ public class ClientWorker extends Worker implements Runnable {
 	
 	public ClientWorker() {
 		breakpoint = getBreakpoint();
+		
+		Methods.log(getClass(), "Client worker initialized!");
+	}
+	
+	public static void main(String[] args) throws Exception {
+		new ClientWorker().add();
+		
+		Client client = PostgresData.getInstance().getRandomClient();
+		
+		System.out.println(client.getCpf());
+		
+		PostgresData.getInstance().removeClient(client.getCpf());
+		PostgresData.getInstance().updateClient(client);
 	}
 	
 	public void run() {
+		Random randomValue = new Random();
+		
+		long timer = System.currentTimeMillis();
+		
+		int addProbality = randomValue.nextInt(5) + 5;
+		int removeProbality = randomValue.nextInt(10 - addProbality) + addProbality + 1;
+		
+		Methods.log(getClass(), "Add probability: " + addProbality);
+		Methods.log(getClass(), "Remove probability: " + removeProbality);
+		
 		while(true) {
 			try {
 				int random = new Random().nextInt(11);
 				
-				if(random < 8) {
+				// De 5 em 5 minutos
+				if(System.currentTimeMillis() - timer > 1000*60*5) {
+					addProbality = randomValue.nextInt(5) + 5;
+					removeProbality = randomValue.nextInt(10 - addProbality) + addProbality + 1;
+					
+					Methods.log(getClass(), "Add probability changed to: " + addProbality);
+					Methods.log(getClass(), "Remove probability changed to: " + removeProbality);
+					timer = System.currentTimeMillis();
+				}
+				
+				if(random < addProbality) {
 					add();
 				} else {
-					if(random < 9) {
+					if(random < removeProbality) {
 						remove();
 					} else {
 						update();
 					}
 				}
-				
-				Thread.sleep(2500);
+
+				Thread.sleep(150);
 				setBreakpoint(breakpoint.get());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		new Thread(new ClientWorker()).start();
 	}
 	
 	@Override
@@ -67,7 +96,7 @@ public class ClientWorker extends Worker implements Runnable {
 		
 		setBreakpoint(breakpoint.get());
 		
-		Methods.log(getClass(), "Client Added! Timer: " + timer.getTime() + " s.");
+		Methods.log(getClass(), "Client ( " + client.getCpf() + " ) Added. Timer: " + timer.getTime() + " s.");
 	}
 
 	@Override
@@ -76,9 +105,13 @@ public class ClientWorker extends Worker implements Runnable {
 		
 		Client client = PostgresData.getInstance().getRandomClient();
 		
-		PostgresData.removeClient(client.getCpf());
+		if(client == null) {
+			return;
+		}
 		
-		Methods.log(getClass(), "Client Removed! Timer: " + timer.getTime() + " s.");
+		PostgresData.getInstance().removeClient(client.getCpf());
+		
+		Methods.log(getClass(), "Client ( " + client.getCpf() + " ) Removed. Timer: " + timer.getTime() + " s.");
 	}
 
 	@Override
@@ -87,7 +120,11 @@ public class ClientWorker extends Worker implements Runnable {
 		
 		Client client = PostgresData.getInstance().getRandomClient();
 		
-		int value = new Random().nextInt(4);
+		if(client == null) {
+			return;
+		}
+		
+		int value = new Random().nextInt(7);
 		
 		switch (value) {
 			case 0:
@@ -100,11 +137,30 @@ public class ClientWorker extends Worker implements Runnable {
 				client.setpNome(RandomStringUtils.randomAlphabetic(20));
 				break;
 			case 3:
+				client.setEndereco(RandomStringUtils.randomAlphabetic(150));
 				client.setuNome(RandomStringUtils.randomAlphabetic(20));
 				break;
+			case 4:
+				client.setmNome(RandomStringUtils.randomAlphabetic(20));
+				client.setuNome(RandomStringUtils.randomAlphabetic(20));
+				break;
+			case 5:
+				client.setpNome(RandomStringUtils.randomAlphabetic(20));
+				client.setuNome(RandomStringUtils.randomAlphabetic(20));
+				break;
+			case 6:
+				client.setpNome(RandomStringUtils.randomAlphabetic(20));
+				client.setEndereco(RandomStringUtils.randomAlphabetic(150));
+				break;
+			case 7:
+				client.setpNome(RandomStringUtils.randomAlphabetic(20));
+				client.setmNome(RandomStringUtils.randomAlphabetic(20));
+				client.setuNome(RandomStringUtils.randomAlphabetic(20));
+				client.setEndereco(RandomStringUtils.randomAlphabetic(150));
+				break;
 		}
-		PostgresData.updateClient(client);
+		PostgresData.getInstance().updateClient(client);
 		
-		Methods.log(getClass(), "Client Updated! Timer: " + timer.getTime() + " s.");
+		Methods.log(getClass(), "Client ( " + client.getCpf() + " ) Updated! Timer: " + timer.getTime() + " s.");
 	}
 }
